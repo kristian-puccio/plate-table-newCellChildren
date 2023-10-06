@@ -1,11 +1,4 @@
 import React from 'react';
-import { AutoformatRule } from '@udecode/plate-autoformat';
-import { ELEMENT_BLOCKQUOTE } from '@udecode/plate-block-quote';
-import {
-  ELEMENT_CODE_BLOCK,
-  ELEMENT_CODE_LINE,
-} from '@udecode/plate-code-block';
-import { TCommentText } from '@udecode/plate-comments';
 import {
   createPlateEditor,
   CreatePlateEditorOptions,
@@ -52,10 +45,6 @@ import {
   WithOverride,
 } from '@udecode/plate-common';
 import {
-  ELEMENT_EXCALIDRAW,
-  TExcalidrawElement,
-} from '@udecode/plate-excalidraw';
-import {
   ELEMENT_H1,
   ELEMENT_H2,
   ELEMENT_H3,
@@ -64,26 +53,6 @@ import {
   ELEMENT_H6,
 } from '@udecode/plate-heading';
 import { ELEMENT_HR } from '@udecode/plate-horizontal-rule';
-import { ELEMENT_LINK, TLinkElement } from '@udecode/plate-link';
-import {
-  ELEMENT_LI,
-  ELEMENT_OL,
-  ELEMENT_TODO_LI,
-  ELEMENT_UL,
-  TTodoListItemElement,
-} from '@udecode/plate-list';
-import {
-  ELEMENT_IMAGE,
-  ELEMENT_MEDIA_EMBED,
-  TImageElement,
-  TMediaEmbedElement,
-} from '@udecode/plate-media';
-import {
-  ELEMENT_MENTION,
-  ELEMENT_MENTION_INPUT,
-  TMentionElement,
-  TMentionInputElement,
-} from '@udecode/plate-mention';
 import { ELEMENT_PARAGRAPH } from '@udecode/plate-paragraph';
 import {
   ELEMENT_TABLE,
@@ -104,7 +73,7 @@ export type PlainText = {
   text: string;
 };
 
-export interface RichText extends TText, TCommentText {
+export interface RichText extends TText {
   bold?: boolean;
   italic?: boolean;
   underline?: boolean;
@@ -123,26 +92,7 @@ export interface RichText extends TText, TCommentText {
  * Inline Elements
  */
 
-export interface MyLinkElement extends TLinkElement {
-  type: typeof ELEMENT_LINK;
-  children: RichText[];
-}
-
-export interface MyMentionInputElement extends TMentionInputElement {
-  type: typeof ELEMENT_MENTION_INPUT;
-  children: [PlainText];
-}
-
-export interface MyMentionElement extends TMentionElement {
-  type: typeof ELEMENT_MENTION;
-  children: [EmptyText];
-}
-
-export type MyInlineElement =
-  | MyLinkElement
-  | MyMentionElement
-  | MyMentionInputElement;
-export type MyInlineDescendant = MyInlineElement | RichText;
+export type MyInlineDescendant = RichText;
 export type MyInlineChildren = MyInlineDescendant[];
 
 /**
@@ -213,21 +163,6 @@ export interface MyH6Element extends MyBlockElement {
   children: MyInlineChildren;
 }
 
-export interface MyBlockquoteElement extends MyBlockElement {
-  type: typeof ELEMENT_BLOCKQUOTE;
-  children: MyInlineChildren;
-}
-
-export interface MyCodeBlockElement extends MyBlockElement {
-  type: typeof ELEMENT_CODE_BLOCK;
-  children: MyCodeLineElement[];
-}
-
-export interface MyCodeLineElement extends TElement {
-  type: typeof ELEMENT_CODE_LINE;
-  children: PlainText[];
-}
-
 export interface MyTableElement extends TTableElement, MyBlockElement {
   type: typeof ELEMENT_TABLE;
   children: MyTableRowElement[];
@@ -243,55 +178,14 @@ export interface MyTableCellElement extends TElement {
   children: MyNestableBlock[];
 }
 
-export interface MyBulletedListElement extends TElement, MyBlockElement {
-  type: typeof ELEMENT_UL;
-  children: MyListItemElement[];
-}
-
-export interface MyNumberedListElement extends TElement, MyBlockElement {
-  type: typeof ELEMENT_OL;
-  children: MyListItemElement[];
-}
-
-export interface MyListItemElement extends TElement, MyBlockElement {
-  type: typeof ELEMENT_LI;
-  children: MyInlineChildren;
-}
-
-export interface MyTodoListElement
-  extends TTodoListItemElement,
-    MyBlockElement {
-  type: typeof ELEMENT_TODO_LI;
-  children: MyInlineChildren;
-}
-
-export interface MyImageElement extends TImageElement, MyBlockElement {
-  type: typeof ELEMENT_IMAGE;
-  children: [EmptyText];
-}
-
-export interface MyMediaEmbedElement
-  extends TMediaEmbedElement,
-    MyBlockElement {
-  type: typeof ELEMENT_MEDIA_EMBED;
-  children: [EmptyText];
-}
-
 export interface MyHrElement extends MyBlockElement {
   type: typeof ELEMENT_HR;
   children: [EmptyText];
 }
 
-export interface MyExcalidrawElement
-  extends TExcalidrawElement,
-    MyBlockElement {
-  type: typeof ELEMENT_EXCALIDRAW;
-  children: [EmptyText];
-}
-
 export type MyNestableBlock = MyParagraphElement;
 
-export type MyBlock = Exclude<MyElement, MyInlineElement>;
+export type MyBlock = Exclude<MyElement, MyInlineChildren>;
 export type MyBlockEntry = TNodeEntry<MyBlock>;
 
 export type MyRootBlock =
@@ -302,16 +196,8 @@ export type MyRootBlock =
   | MyH4Element
   | MyH5Element
   | MyH6Element
-  | MyBlockquoteElement
-  | MyCodeBlockElement
   | MyTableElement
-  | MyBulletedListElement
-  | MyNumberedListElement
-  | MyTodoListElement
-  | MyImageElement
-  | MyMediaEmbedElement
-  | MyHrElement
-  | MyExcalidrawElement;
+  | MyHrElement;
 
 export type MyValue = MyRootBlock[];
 
@@ -395,5 +281,3 @@ export const createMyPlugins = (
     overrideByKey?: OverrideByKey;
   }
 ) => createPlugins<MyValue, MyEditor>(plugins, options);
-
-export type MyAutoformatRule = AutoformatRule<MyValue, MyEditor>;

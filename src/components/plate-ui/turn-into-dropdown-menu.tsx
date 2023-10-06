@@ -1,6 +1,5 @@
 import React from 'react';
 import { DropdownMenuProps } from '@radix-ui/react-dropdown-menu';
-import { ELEMENT_BLOCKQUOTE } from '@udecode/plate-block-quote';
 import {
   collapseSelection,
   findNode,
@@ -52,24 +51,6 @@ const items = [
     description: 'Heading 3',
     icon: Icons.h3,
   },
-  {
-    value: ELEMENT_BLOCKQUOTE,
-    label: 'Quote',
-    description: 'Quote (⌘+⇧+.)',
-    icon: Icons.blockquote,
-  },
-  // {
-  //   value: 'ul',
-  //   label: 'Bulleted list',
-  //   description: 'Bulleted list',
-  //   icon: Icons.ul,
-  // },
-  // {
-  //   value: 'ol',
-  //   label: 'Numbered list',
-  //   description: 'Numbered list',
-  //   icon: Icons.ol,
-  // },
 ];
 
 const defaultItem = items.find((item) => item.value === ELEMENT_PARAGRAPH)!;

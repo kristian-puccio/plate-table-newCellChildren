@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { DropdownMenuProps } from '@radix-ui/react-dropdown-menu';
-import { ELEMENT_BLOCKQUOTE } from '@udecode/plate-block-quote';
 import {
   focusEditor,
   insertEmptyElement,
@@ -51,12 +50,6 @@ const items = [
         label: 'Heading 3',
         description: 'Heading 3',
         icon: Icons.h3,
-      },
-      {
-        value: ELEMENT_BLOCKQUOTE,
-        label: 'Quote',
-        description: 'Quote (⌘+⇧+.)',
-        icon: Icons.blockquote,
       },
       // {
       //   value: ELEMENT_TABLE,
